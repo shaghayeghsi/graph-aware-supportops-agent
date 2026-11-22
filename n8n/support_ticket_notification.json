@@ -1,0 +1,51 @@
+{
+  "name": "Support ticket notification starter",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "support-ticket-event",
+        "responseMode": "onReceived"
+      },
+      "id": "webhook-node",
+      "name": "Ticket Event Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        260,
+        300
+      ],
+      "webhookId": "support-ticket-event"
+    },
+    {
+      "parameters": {
+        "jsCode": "const event = $input.first().json.body ?? $input.first().json;\\nreturn [{json: {ticket_id: event.ticket_id, customer_id: event.customer_id, event: event.event ?? 'ticket_created', received_at: new Date().toISOString()}}];"
+      },
+      "id": "normalize-node",
+      "name": "Normalize Ticket Event",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        520,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Ticket Event Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalize Ticket Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

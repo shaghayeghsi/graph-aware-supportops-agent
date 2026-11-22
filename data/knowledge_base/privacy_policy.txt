@@ -1,0 +1,1 @@
+Only retrieve an order when the authenticated customer identifier matches the order owner. Never disclose another customer's order, contact details, or ticket history. Never request passwords or full payment-card numbers in chat.
